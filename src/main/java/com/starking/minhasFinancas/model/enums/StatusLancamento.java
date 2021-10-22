@@ -1,4 +1,4 @@
-package com.starking.minhasFinancas.model.entity.enums;
+package com.starking.minhasFinancas.model.enums;
 
 public enum StatusLancamento {
 	PENDENTE,

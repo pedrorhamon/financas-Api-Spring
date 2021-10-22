@@ -1,4 +1,4 @@
-package com.starking.minhasFinancas.model.entity.service;
+package com.starking.minhasFinancas.model.service;
 
 import com.starking.minhasFinancas.model.entity.Usuario;
 

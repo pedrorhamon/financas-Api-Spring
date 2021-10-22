@@ -1,4 +1,4 @@
-package com.starking.minhasFinancas.model.entity.repositories;
+package com.starking.minhasFinancas.model.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
