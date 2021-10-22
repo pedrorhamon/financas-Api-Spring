@@ -1,9 +1,12 @@
 package com.starking.minhasFinancas.model.service.impl;
 
+import java.util.Optional;
+
 import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
 
+import com.starking.minhasFinancas.exception.ErroAutenticacao;
 import com.starking.minhasFinancas.exception.RegraNegocioException;
 import com.starking.minhasFinancas.model.entity.Usuario;
 import com.starking.minhasFinancas.model.repositories.UsuarioRepository;
@@ -21,8 +24,15 @@ public class UsuarioServiceImpl implements UsuarioService {
 
 	@Override
 	public Usuario autenticar(String email, String senha) {
-		// TODO Auto-generated method stub
-		return null;
+		Optional<Usuario> usuario = usuarioRepository.findByEmail(email);
+
+		if (!usuario.isPresent()) {
+			throw new ErroAutenticacao("Usuario não encontrado");
+		}
+		if (usuario.get().getSenha().equals(senha)) {
+			throw new ErroAutenticacao("Senha inválida. ");
+		}
+		return usuario.get();
 	}
 
 	@Override
