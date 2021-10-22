@@ -1,15 +1,16 @@
 package com.starking.minhasFinancas.model.entity.service.impl;
 
+import org.springframework.stereotype.Service;
+
 import com.starking.minhasFinancas.model.entity.Usuario;
 import com.starking.minhasFinancas.model.entity.repositories.UsuarioRepository;
 import com.starking.minhasFinancas.model.entity.service.UsuarioService;
 
+@Service
 public class UsuarioServiceImpl implements UsuarioService{
 	
 	private UsuarioRepository repository;
 	
-	
-
 	public UsuarioServiceImpl(UsuarioRepository repository) {
 		this.repository = repository;
 	}
