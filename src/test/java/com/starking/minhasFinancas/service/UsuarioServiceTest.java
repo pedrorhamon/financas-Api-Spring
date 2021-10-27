@@ -2,6 +2,7 @@ package com.starking.minhasFinancas.service;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -22,6 +23,9 @@ public class UsuarioServiceTest {
 	
 	@Test
 	public void deveValidarEmail() {
+		
+		UsuarioRepository usuarioRepositoryMock =  Mockito.mock(UsuarioRepository.class);
+		
 		repository.deleteAll();
 		
 		service.validarEmail("pedro@gmail.com");	
