@@ -1,5 +1,8 @@
 package com.starking.minhasFinancas.service;
 
+import java.util.Optional;
+
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestFactory;
@@ -9,6 +12,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import com.starking.minhasFinancas.model.entity.Usuario;
 import com.starking.minhasFinancas.model.repositories.UsuarioRepository;
 import com.starking.minhasFinancas.model.service.UsuarioService;
 import com.starking.minhasFinancas.model.service.impl.UsuarioServiceImpl;
@@ -25,6 +29,19 @@ public class UsuarioServiceTest {
 	@BeforeEach
 	public void setUp() {
 		service = new UsuarioServiceImpl(repository);
+	}
+	
+	@TestFactory
+	public void deveAutenticaUsuario() {
+		String email = "pedro@gmail.com";
+		String senha = "123456";
+		
+		Usuario usuario = Usuario.builder().email(email).senha(senha).id(1L).build();
+		Mockito.when(repository.findByEmail(email)).thenReturn(Optional.of(usuario));
+		
+		Usuario result = service.autenticar(email, senha);
+		
+		Assertions.assertThat(result).isNotNull();
 	}
 	
 	@Test
