@@ -35,12 +35,10 @@ public class UsuarioServiceTest {
 	public void deveAutenticaUsuario() {
 		String email = "pedro@gmail.com";
 		String senha = "123456";
-		
 		Usuario usuario = Usuario.builder().email(email).senha(senha).id(1L).build();
 		Mockito.when(repository.findByEmail(email)).thenReturn(Optional.of(usuario));
-		
 		Usuario result = service.autenticar(email, senha);
-		
+	
 		Assertions.assertThat(result).isNotNull();
 	}
 	
@@ -52,8 +50,7 @@ public class UsuarioServiceTest {
 	}
 	
 	@Test
-	public void deveValidarEmail() {
-		
+	public void deveValidarEmail() {		
 		Mockito.when(repository.existsByEmail(Mockito.anyString())).thenReturn(false);
 		
 		service.validarEmail("pedro@gmail.com");	
@@ -64,6 +61,7 @@ public class UsuarioServiceTest {
 		String senha = "senha";
 		Usuario usuario = Usuario.builder().email("pedro@gmail.com").senha(senha).build();
 		Mockito.when(repository.findByEmail(Mockito.anyString())).thenReturn(Optional.of(usuario));
+		
 		service.autenticar("pedro@gmail.com", "11234");
 		
 	}
