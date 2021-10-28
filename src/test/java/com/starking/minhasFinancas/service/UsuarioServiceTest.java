@@ -44,12 +44,28 @@ public class UsuarioServiceTest {
 		Assertions.assertThat(result).isNotNull();
 	}
 	
+	@TestFactory
+	public void deveLancaEmailNaoInformado() {
+		Mockito.when(repository.findByEmail(Mockito.anyString())).thenReturn(Optional.empty());
+		
+		service.autenticar("pedro@gmail.com", "senha");
+	}
+	
 	@Test
 	public void deveValidarEmail() {
 		
 		Mockito.when(repository.existsByEmail(Mockito.anyString())).thenReturn(false);
 		
 		service.validarEmail("pedro@gmail.com");	
+	}
+	
+	@Test
+	public void deveLancarErroSenhaInvalida() {
+		String senha = "senha";
+		Usuario usuario = Usuario.builder().email("pedro@gmail.com").senha(senha).build();
+		Mockito.when(repository.findByEmail(Mockito.anyString())).thenReturn(Optional.of(usuario));
+		service.autenticar("pedro@gmail.com", "11234");
+		
 	}
 	
 	@TestFactory
