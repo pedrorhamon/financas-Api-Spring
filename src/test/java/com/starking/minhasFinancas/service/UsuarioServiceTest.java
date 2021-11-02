@@ -3,32 +3,32 @@ package com.starking.minhasFinancas.service;
 import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestFactory;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.starking.minhasFinancas.model.entity.Usuario;
 import com.starking.minhasFinancas.model.repositories.UsuarioRepository;
-import com.starking.minhasFinancas.model.service.UsuarioService;
 import com.starking.minhasFinancas.model.service.impl.UsuarioServiceImpl;
 
 @ExtendWith(SpringExtension.class)
 @ActiveProfiles("test")
 public class UsuarioServiceTest {
 	
-	UsuarioService service;
+	@SpyBean
+	UsuarioServiceImpl service;
 	
 	@MockBean
 	UsuarioRepository repository;
 	
-	@BeforeEach
-	public void setUp() {
-		service = new UsuarioServiceImpl(repository);
+	@Test
+	public void salvarUsuario() {
+		
 	}
 	
 	@TestFactory
