@@ -4,7 +4,6 @@ import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestFactory;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -12,6 +11,7 @@ import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import com.starking.minhasFinancas.exception.RegraNegocioException;
 import com.starking.minhasFinancas.model.entity.Usuario;
 import com.starking.minhasFinancas.model.repositories.UsuarioRepository;
 import com.starking.minhasFinancas.model.service.impl.UsuarioServiceImpl;
@@ -46,7 +46,18 @@ public class UsuarioServiceTest {
 		Assertions.assertThat(usuarioSalvo.getSenha()).isEqualTo("senha");
 	}
 	
-	@TestFactory
+	@Test
+	public void naoDeveSalvarUsuarioRepetido() {
+		String email = "pedrorhamon@gmail.com";
+		Usuario usuario = Usuario.builder().email(email).build();
+		Mockito.doThrow(RegraNegocioException.class).when(service).validarEmail(email);
+		
+		service.salvarUsuario(usuario);
+		
+		Mockito.verify(repository, Mockito.never()).save(usuario);
+	}
+	
+	@Test
 	public void deveAutenticaUsuario() {
 		String email = "pedro@gmail.com";
 		String senha = "123456";
@@ -57,7 +68,7 @@ public class UsuarioServiceTest {
 		Assertions.assertThat(result).isNotNull();
 	}
 	
-	@TestFactory
+	@Test
 	public void deveLancaEmailNaoInformado() {
 		Mockito.when(repository.findByEmail(Mockito.anyString())).thenReturn(Optional.empty());
 		
@@ -81,7 +92,7 @@ public class UsuarioServiceTest {
 		
 	}
 	
-	@TestFactory
+	@Test
 	public void deveLancarErro() {
 		Mockito.when(repository.existsByEmail(Mockito.anyString())).thenReturn(true);
 		
