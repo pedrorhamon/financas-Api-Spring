@@ -38,8 +38,7 @@ public class UsuarioResource {
 		Usuario usuario = Usuario.builder()
 				.nome(dto.getNome())
 				.email(dto.getEmail())
-				.senha(dto.getSenha()).build();
-		
+				.senha(dto.getSenha()).build();	
 		try {
 			Usuario usuarioSalvo = usuarioService.salvarUsuario(usuario);
 			return new ResponseEntity<Object>(usuarioSalvo, HttpStatus.CREATED);
