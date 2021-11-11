@@ -24,18 +24,17 @@ import com.starking.minhasFinancas.model.enums.TipoLancamento;
 import com.starking.minhasFinancas.model.service.LancamentoService;
 import com.starking.minhasFinancas.model.service.UsuarioService;
 
+import lombok.RequiredArgsConstructor;
+
 @RestController
 @RequestMapping("/api/lancamentos")
+@RequiredArgsConstructor
 public class LancamentoResource {
 
-	private LancamentoService lancamentoService;
+	private final LancamentoService lancamentoService;
 
-	private UsuarioService usuarioService;
+	private final UsuarioService usuarioService;
 
-	public LancamentoResource(LancamentoService lancamentoService) {
-		this.lancamentoService = lancamentoService;
-	}
-	
 	@GetMapping
 	public ResponseEntity buscar(
 			@RequestParam(value = "descricao", required = false) String descricao, 
