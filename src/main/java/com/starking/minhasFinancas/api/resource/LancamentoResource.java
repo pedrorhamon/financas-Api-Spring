@@ -50,12 +50,11 @@ public class LancamentoResource {
 				lancamento.setId(entity.getId());
 				lancamentoService.atualizar(lancamento);
 				return ResponseEntity.ok(lancamento);
-				
+
 			} catch (RegraNegocioException e) {
 				return ResponseEntity.badRequest().body(e.getMessage());
 			}
-		}).orElseGet(() -> 
-		new ResponseEntity("Lancamento não encontrado na base de Dados.", HttpStatus.BAD_REQUEST));
+		}).orElseGet(() -> new ResponseEntity("Lancamento não encontrado na base de Dados.", HttpStatus.BAD_REQUEST));
 	}
 	
 	@DeleteMapping("{id}")
