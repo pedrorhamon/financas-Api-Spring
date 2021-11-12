@@ -104,8 +104,13 @@ public class LancamentoResource {
 				.orElseThrow(() -> new RegraNegocioException("Usuario não encontrado para o Id informado. "));
 
 		lancamento.setUsuario(usuario);
-		lancamento.setTipo(TipoLancamento.valueOf(lancamentoDto.getTipo()));
-		lancamento.setStatus(StatusLancamento.valueOf(lancamentoDto.getStatus()));
+		
+		if (lancamentoDto.getTipo() != null) {
+			lancamento.setTipo(TipoLancamento.valueOf(lancamentoDto.getTipo()));
+		}
+		if (lancamentoDto.getStatus() != null) {
+			lancamento.setStatus(StatusLancamento.valueOf(lancamentoDto.getStatus()));
+		}
 
 		return lancamento;
 	}
