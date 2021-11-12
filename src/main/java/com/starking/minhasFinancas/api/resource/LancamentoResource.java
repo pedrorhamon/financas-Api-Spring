@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.starking.minhasFinancas.api.dto.AtualizaStatusDto;
 import com.starking.minhasFinancas.api.dto.LancamentoDto;
 import com.starking.minhasFinancas.exception.RegraNegocioException;
 import com.starking.minhasFinancas.model.entity.Lancamento;
@@ -80,6 +81,24 @@ public class LancamentoResource {
 			} catch (RegraNegocioException e) {
 				return ResponseEntity.badRequest().body(e.getMessage());
 			}
+		}).orElseGet(() -> new ResponseEntity("Lancamento não encontrado na base de Dados.", HttpStatus.BAD_REQUEST));
+	}
+	
+	@PutMapping("{id}/atualiza-status")
+	public ResponseEntity atualizarStatus(@PathVariable("id") Long id, @RequestBody AtualizaStatusDto atualizaStatusDto) {
+		return lancamentoService.obterPorId(id).map(entity -> {
+		StatusLancamento statusLancamento = StatusLancamento.valueOf(atualizaStatusDto.getStatus());
+		if(statusLancamento == null) {
+			return ResponseEntity.badRequest().body("Não foi possivel atualizar o status do lancamento, envie um email");
+		}
+		try {
+			entity.setStatus(statusLancamento);
+			lancamentoService.atualizar(entity);
+		return ResponseEntity.ok(entity);
+		
+		}catch(RegraNegocioException e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
 		}).orElseGet(() -> new ResponseEntity("Lancamento não encontrado na base de Dados.", HttpStatus.BAD_REQUEST));
 	}
 	
