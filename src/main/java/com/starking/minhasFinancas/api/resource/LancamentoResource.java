@@ -130,7 +130,6 @@ public class LancamentoResource {
 		if (lancamentoDto.getStatus() != null) {
 			lancamento.setStatus(StatusLancamento.valueOf(lancamentoDto.getStatus()));
 		}
-
 		return lancamento;
 	}
 }
