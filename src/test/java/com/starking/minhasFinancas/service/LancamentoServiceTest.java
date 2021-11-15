@@ -1,6 +1,9 @@
 package com.starking.minhasFinancas.service;
 
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import org.assertj.core.api.Assertions;
@@ -11,6 +14,7 @@ import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import com.starking.minhasFinancas.exception.RegraNegocioException;
 import com.starking.minhasFinancas.model.entity.Lancamento;
 import com.starking.minhasFinancas.model.enums.StatusLancamento;
 import com.starking.minhasFinancas.model.repositories.LancamentoRepository;
@@ -46,6 +50,13 @@ public class LancamentoServiceTest {
 	
 	@Test
 	public void naoDeveSalvarUmLancamentoErroValidacao() {
+		Lancamento lancamentoSalvar = LancamentoRepositoryTest.criarLancamento();
+		doThrow(RegraNegocioException.class).when(service).validar(lancamentoSalvar);
+		
+		Assertions.catchThrowableOfType(() -> service.salvar(lancamentoSalvar), RegraNegocioException.class);
+		
+		verify(repository, never()).save(lancamentoSalvar);
+		
 	}
 
 }
