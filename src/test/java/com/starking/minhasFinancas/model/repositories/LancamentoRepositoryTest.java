@@ -78,13 +78,13 @@ public class LancamentoRepositoryTest {
 		Assertions.assertThat(lancamentoEncontrado.isPresent()).isTrue();
 	}
 	
-	private Lancamento criarPersistirLancamento() {
+	public Lancamento criarPersistirLancamento() {
 		Lancamento lancamento = criarLancamento();
 		entityManager.persist(lancamento);
 		return lancamento;
 	}
 	
-	private Lancamento criarLancamento() {
+	public static Lancamento criarLancamento() {
 		return Lancamento.builder()
 				.ano(2019)
 				.mes(1)
