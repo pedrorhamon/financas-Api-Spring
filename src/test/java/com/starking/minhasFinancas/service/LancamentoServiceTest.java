@@ -3,8 +3,10 @@ package com.starking.minhasFinancas.service;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.assertj.core.api.Assertions.catchThrowableOfType;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -53,10 +55,33 @@ public class LancamentoServiceTest {
 		Lancamento lancamentoSalvar = LancamentoRepositoryTest.criarLancamento();
 		doThrow(RegraNegocioException.class).when(service).validar(lancamentoSalvar);
 		
-		Assertions.catchThrowableOfType(() -> service.salvar(lancamentoSalvar), RegraNegocioException.class);
+		catchThrowableOfType(() -> service.salvar(lancamentoSalvar), RegraNegocioException.class);
 		
-		verify(repository, never()).save(lancamentoSalvar);
+		verify(repository, never()).save(lancamentoSalvar);	
+	}
+	
+	
+	@Test
+	public void deveAtualizarLancamento() {
+		Lancamento lancamentoSalvo = LancamentoRepositoryTest.criarLancamento();
+		lancamentoSalvo.setId(1l);
+		lancamentoSalvo.setStatus(StatusLancamento.PENDENTE);
+		
+		doNothing().when(service).validar(lancamentoSalvo);
+		
+		when(repository.save(lancamentoSalvo)).thenReturn(lancamentoSalvo);
+		
+		service.atualizar(lancamentoSalvo);
+		verify(repository, times(1)).save(lancamentoSalvo);
 		
 	}
 
+	@Test
+	public void deveLancaErroAtualizar() {
+		Lancamento lancamentoSalvar = LancamentoRepositoryTest.criarLancamento();
+		
+		catchThrowableOfType(() -> service.atualizar(lancamentoSalvar), NullPointerException.class);
+		
+		verify(repository, never()).save(lancamentoSalvar);	
+	}
 }
