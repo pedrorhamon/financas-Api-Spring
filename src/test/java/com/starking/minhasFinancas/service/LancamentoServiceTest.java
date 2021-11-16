@@ -1,18 +1,23 @@
 package com.starking.minhasFinancas.service;
 
+import static org.assertj.core.api.Assertions.catchThrowableOfType;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.assertj.core.api.Assertions.catchThrowableOfType;
+
+import java.util.Arrays;
+import java.util.List;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.data.domain.Example;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -35,7 +40,6 @@ public class LancamentoServiceTest {
 	
 	@Test
 	public void deveSalvarUmLancamento() {
-		
 		Lancamento lancamemtoSalvar = LancamentoRepositoryTest.criarLancamento();
 		doNothing().when(service).validar(lancamemtoSalvar);
 		
@@ -102,5 +106,22 @@ public class LancamentoServiceTest {
 		catchThrowableOfType(() -> service.deletar(lancamentoSalvar), NullPointerException.class);
 
 		verify(repository, never()).save(lancamentoSalvar);
+	}
+	
+	@Test
+	public void deveFiltrarLancamento() {
+		Lancamento lancamento = LancamentoRepositoryTest.criarLancamento();
+		lancamento.setId(1l);
+		
+		List<Lancamento> lista = Arrays.asList(lancamento);
+		when( repository.findAll(any(Example.class))).thenReturn(lista);
+		
+		List<Lancamento> resultado = service.buscar(lancamento);
+		
+		Assertions
+			.assertThat(resultado)
+			.isNotEmpty()
+			.hasSize(1)
+			.contains(lancamento);
 	}
 }
