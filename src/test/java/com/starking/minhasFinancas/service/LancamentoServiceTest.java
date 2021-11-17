@@ -12,6 +12,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -140,5 +141,19 @@ public class LancamentoServiceTest {
 		Assertions.assertThat(lancamentoSalvar.getStatus()).isEqualTo(novoStatus);
 		verify(service).atualizar(lancamentoSalvar);
 
+	}
+	
+	@Test
+	public void deveObterLancamentoId() {
+		Long id = 1L;
+		
+		Lancamento lancamentoSalvar = LancamentoRepositoryTest.criarLancamento();
+		lancamentoSalvar.setId(id);
+		
+		when(repository.findById(id)).thenReturn(Optional.empty());
+		
+		Optional<Lancamento> resultado = service.obterPorId(id);
+		
+		Assertions.assertThat(resultado.isPresent()).isFalse();	
 	}
 }
