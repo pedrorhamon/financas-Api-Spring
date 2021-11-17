@@ -3,6 +3,7 @@ package com.starking.minhasFinancas.service;
 import static org.assertj.core.api.Assertions.catchThrowableOfType;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
@@ -123,5 +124,21 @@ public class LancamentoServiceTest {
 			.isNotEmpty()
 			.hasSize(1)
 			.contains(lancamento);
+	}
+	
+	@Test
+	public void deveAtualizarStatusLancamento() {
+		Lancamento lancamentoSalvar = LancamentoRepositoryTest.criarLancamento();
+		lancamentoSalvar.setId(1l);
+		lancamentoSalvar.setStatus(StatusLancamento.PENDENTE);
+		
+		StatusLancamento novoStatus = StatusLancamento.EFETIVADO;
+		doReturn(lancamentoSalvar).when(service).atualizar(lancamentoSalvar);
+		
+		service.atualizarStatus(lancamentoSalvar, novoStatus);
+		
+		Assertions.assertThat(lancamentoSalvar.getStatus()).isEqualTo(novoStatus);
+		verify(service).atualizar(lancamentoSalvar);
+
 	}
 }
