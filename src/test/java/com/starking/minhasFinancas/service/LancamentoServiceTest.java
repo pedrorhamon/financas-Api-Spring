@@ -30,6 +30,7 @@ import com.starking.minhasFinancas.exception.RegraNegocioException;
 import com.starking.minhasFinancas.model.entity.Lancamento;
 import com.starking.minhasFinancas.model.entity.Usuario;
 import com.starking.minhasFinancas.model.enums.StatusLancamento;
+import com.starking.minhasFinancas.model.enums.TipoLancamento;
 import com.starking.minhasFinancas.model.repositories.LancamentoRepository;
 import com.starking.minhasFinancas.model.repositories.LancamentoRepositoryTest;
 import com.starking.minhasFinancas.model.service.impl.LancamentoServiceImpl;
@@ -224,4 +225,20 @@ public class LancamentoServiceTest {
 		assertThat(erro).isInstanceOf(RegraNegocioException.class).hasMessage("Informe um tipo de Lançamento.");
 	}
 	
+	@Test
+	public void deveObterSaldoPorUsuario() {
+		Long idUsuario = 1l;
+		
+		when( repository
+				.obterSaldoPorTipoLancamentoEUsuarioEStatus(idUsuario, TipoLancamento.RECEITA, StatusLancamento.EFETIVADO)) 
+				.thenReturn(BigDecimal.valueOf(100));
+		
+		when( repository
+				.obterSaldoPorTipoLancamentoEUsuarioEStatus(idUsuario, TipoLancamento.DESPESA, StatusLancamento.EFETIVADO)) 
+				.thenReturn(BigDecimal.valueOf(50));
+
+		BigDecimal saldo = service.obterSaldoPorUsuario(idUsuario);
+
+		assertThat(saldo).isEqualTo(BigDecimal.valueOf(50));		
+	}	
 }
