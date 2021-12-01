@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.ExampleMatcher.StringMatcher;
@@ -23,6 +24,7 @@ public class LancamentoServiceImpl implements LancamentoService{
 
 	private LancamentoRepository lancamentoRepository;
 	
+	@Autowired
 	public LancamentoServiceImpl(LancamentoRepository lancamentoRepository) {
 		this.lancamentoRepository = lancamentoRepository;
 	}

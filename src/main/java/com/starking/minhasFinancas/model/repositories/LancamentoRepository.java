@@ -5,11 +5,13 @@ import java.math.BigDecimal;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import com.starking.minhasFinancas.model.entity.Lancamento;
 import com.starking.minhasFinancas.model.enums.StatusLancamento;
 import com.starking.minhasFinancas.model.enums.TipoLancamento;
 
+@Repository
 public interface LancamentoRepository extends JpaRepository<Lancamento, Long> {
 
 	@Query( value = 

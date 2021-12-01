@@ -3,6 +3,7 @@ package com.starking.minhasFinancas.api.resource;
 import java.math.BigDecimal;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,13 +24,19 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/usuarios")
-@RequiredArgsConstructor
 public class UsuarioResource {
 	
 	private UsuarioService usuarioService;
 	
 	private LancamentoService lancamentoService;
 	
+	@Autowired
+	public UsuarioResource(UsuarioService usuarioService, LancamentoService lancamentoService) {
+		super();
+		this.usuarioService = usuarioService;
+		this.lancamentoService = lancamentoService;
+	}
+
 	@PostMapping("/autenticar")
 	public ResponseEntity autenticar(@RequestBody UsuarioDto dto) {
 		try {
