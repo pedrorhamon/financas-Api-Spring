@@ -20,6 +20,5 @@ public interface LancamentoRepository extends JpaRepository<Lancamento, Long> {
 	BigDecimal obterSaldoPorTipoLancamentoEUsuarioEStatus(
 			@Param("idUsuario") Long idUsuario, 
 			@Param("tipo") TipoLancamento tipo,
-			@Param("status") StatusLancamento status);
-	
+			@Param("status") StatusLancamento status);	
 }
