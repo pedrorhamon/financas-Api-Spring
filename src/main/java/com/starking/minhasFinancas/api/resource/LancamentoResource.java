@@ -59,7 +59,8 @@ public class LancamentoResource {
 	}
 
 	@PostMapping
-	public ResponseEntity salvar(@RequestBody LancamentoDto lancamentoDto) {
+	public ResponseEntity<?> salvar(@RequestBody 
+			LancamentoDto lancamentoDto) {
 		try {
 			Lancamento entidade = converter(lancamentoDto);
 			entidade = lancamentoService.salvar(entidade);
@@ -70,7 +71,8 @@ public class LancamentoResource {
 	}
 
 	@PutMapping("{id}")
-	public ResponseEntity atualizar(@PathVariable("id") Long id, @RequestBody LancamentoDto lancamentoDto) {
+	public ResponseEntity<?>  atualizar(@PathVariable("id") Long id,
+			@RequestBody LancamentoDto lancamentoDto) {
 		return lancamentoService.obterPorId(id).map(entity -> {
 			try {
 				Lancamento lancamento = converter(lancamentoDto);
@@ -85,7 +87,7 @@ public class LancamentoResource {
 	}
 	
 	@PutMapping("{id}/atualiza-status")
-	public ResponseEntity atualizarStatus( @PathVariable("id") Long id , @RequestBody AtualizaStatusDto dto ) {
+	public ResponseEntity<?>  atualizarStatus( @PathVariable("id") Long id , @RequestBody AtualizaStatusDto dto ) {
 		return lancamentoService.obterPorId(id).map( entity -> {
 			StatusLancamento statusSelecionado = StatusLancamento.valueOf(dto.getStatus());
 			
@@ -100,13 +102,12 @@ public class LancamentoResource {
 			}catch (RegraNegocioException e) {
 				return ResponseEntity.badRequest().body(e.getMessage());
 			}
-		
 		}).orElseGet( () ->
-		new ResponseEntity("Lancamento não encontrado na base de Dados.", HttpStatus.BAD_REQUEST) );
+		new ResponseEntity("Lancamento não encontrado na base de Dados.", HttpStatus.BAD_REQUEST));
 	}
 	
 	@DeleteMapping("{id}")
-	public ResponseEntity deletar(@PathVariable("id") Long id) {
+	public ResponseEntity<?>  deletar(@PathVariable("id") Long id) {
 		return lancamentoService.obterPorId(id).map(entidade -> {
 			lancamentoService.deletar(entidade);
 			return new ResponseEntity(HttpStatus.NO_CONTENT);
@@ -124,7 +125,6 @@ public class LancamentoResource {
 
 		Usuario usuario = usuarioService.obterPorId(lancamentoDto.getUsuario())
 				.orElseThrow(() -> new RegraNegocioException("Usuario não encontrado para o Id informado. "));
-
 		lancamento.setUsuario(usuario);
 		
 		if (lancamentoDto.getTipo() != null) {
