@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestFactory;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -26,7 +27,7 @@ public class UsuarioServiceTest {
 	@MockBean
 	UsuarioRepository repository;
 	
-	@Test
+	@TestFactory
 	public void salvarUsuario() {
 		Mockito.doNothing().when(service).validarEmail(Mockito.anyString());
 		Usuario usuario = Usuario.builder()
@@ -46,7 +47,7 @@ public class UsuarioServiceTest {
 		Assertions.assertThat(usuarioSalvo.getSenha()).isEqualTo("senha");
 	}
 	
-	@Test
+	@TestFactory
 	public void naoDeveSalvarUsuarioRepetido() {
 		String email = "pedrorhamon@gmail.com";
 		Usuario usuario = Usuario.builder().email(email).build();
@@ -57,7 +58,7 @@ public class UsuarioServiceTest {
 		Mockito.verify(repository, Mockito.never()).save(usuario);
 	}
 	
-	@Test
+	@TestFactory
 	public void deveAutenticaUsuario() {
 		String email = "pedro@gmail.com";
 		String senha = "123456";
@@ -68,21 +69,21 @@ public class UsuarioServiceTest {
 		Assertions.assertThat(result).isNotNull();
 	}
 	
-	@Test
+	@TestFactory
 	public void deveLancaEmailNaoInformado() {
 		Mockito.when(repository.findByEmail(Mockito.anyString())).thenReturn(Optional.empty());
 		
 		service.autenticar("pedro@gmail.com", "senha");
 	}
 	
-	@Test
+	@TestFactory
 	public void deveValidarEmail() {		
 		Mockito.when(repository.existsByEmail(Mockito.anyString())).thenReturn(false);
 		
 		service.validarEmail("pedro@gmail.com");	
 	}
 	
-	@Test
+	@TestFactory
 	public void deveLancarErroSenhaInvalida() {
 		String senha = "senha";
 		Usuario usuario = Usuario.builder().email("pedro@gmail.com").senha(senha).build();
@@ -92,7 +93,7 @@ public class UsuarioServiceTest {
 		
 	}
 	
-	@Test
+	@TestFactory
 	public void deveLancarErro() {
 		Mockito.when(repository.existsByEmail(Mockito.anyString())).thenReturn(true);
 		
