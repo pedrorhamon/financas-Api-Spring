@@ -1,4 +1,4 @@
-package com.starking.minhasFinancas.api.resource;
+package com.starking.minhasFinancas.api.resource.impl;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.starking.minhasFinancas.api.dto.AtualizaStatusDto;
 import com.starking.minhasFinancas.api.dto.LancamentoDto;
+import com.starking.minhasFinancas.api.resource.LancamentoResource;
 import com.starking.minhasFinancas.exception.RegraNegocioException;
 import com.starking.minhasFinancas.model.entity.Lancamento;
 import com.starking.minhasFinancas.model.entity.Usuario;
@@ -30,7 +31,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("/api/lancamentos")
 @RequiredArgsConstructor
-public class LancamentoResource {
+public class LancamentoResourceImpl implements LancamentoResource{
 
 	private final LancamentoService lancamentoService;
 
@@ -58,7 +59,7 @@ public class LancamentoResource {
 		return ResponseEntity.ok(lancamentos);
 	}
 	
-	@GetMapping("{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<?> buscarPorId(@PathVariable("id")Long id){
 		return lancamentoService.obterPorId(id)
 				.map(lancamento -> new ResponseEntity(converter(lancamento), HttpStatus.OK))

@@ -17,6 +17,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.starking.minhasFinancas.api.dto.UsuarioDto;
+import com.starking.minhasFinancas.api.resource.impl.UsuarioResourceImpl;
 import com.starking.minhasFinancas.exception.ErroAutenticacao;
 import com.starking.minhasFinancas.exception.RegraNegocioException;
 import com.starking.minhasFinancas.model.entity.Usuario;
@@ -25,7 +26,7 @@ import com.starking.minhasFinancas.model.service.UsuarioService;
 
 @ExtendWith(SpringExtension.class)
 @ActiveProfiles("test")
-@WebMvcTest(controllers = UsuarioResource.class)
+@WebMvcTest(controllers = UsuarioResourceImpl.class)
 @AutoConfigureMockMvc
 public class UsuarioResourceTest {
 

@@ -1,4 +1,4 @@
-package com.starking.minhasFinancas.api.resource;
+package com.starking.minhasFinancas.api.resource.impl;
 
 import java.math.BigDecimal;
 import java.util.Optional;
@@ -14,24 +14,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.starking.minhasFinancas.api.dto.UsuarioDto;
+import com.starking.minhasFinancas.api.resource.UsuarioResource;
 import com.starking.minhasFinancas.exception.ErroAutenticacao;
 import com.starking.minhasFinancas.exception.RegraNegocioException;
 import com.starking.minhasFinancas.model.entity.Usuario;
 import com.starking.minhasFinancas.model.service.LancamentoService;
 import com.starking.minhasFinancas.model.service.UsuarioService;
 
-import lombok.RequiredArgsConstructor;
-
 @RestController
 @RequestMapping("/api/usuarios")
-public class UsuarioResource {
+public class UsuarioResourceImpl implements UsuarioResource{
 	
 	private UsuarioService usuarioService;
 	
 	private LancamentoService lancamentoService;
 	
 	@Autowired
-	public UsuarioResource(UsuarioService usuarioService, LancamentoService lancamentoService) {
+	public UsuarioResourceImpl(UsuarioService usuarioService, LancamentoService lancamentoService) {
 		super();
 		this.usuarioService = usuarioService;
 		this.lancamentoService = lancamentoService;
