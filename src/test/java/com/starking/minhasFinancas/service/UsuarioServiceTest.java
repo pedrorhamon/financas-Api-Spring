@@ -72,7 +72,6 @@ public class UsuarioServiceTest {
 	@TestFactory
 	public void deveLancaEmailNaoInformado() {
 		Mockito.when(repository.findByEmail(Mockito.anyString())).thenReturn(Optional.empty());
-		
 		service.autenticar("pedro@gmail.com", "senha");
 	}
 	
