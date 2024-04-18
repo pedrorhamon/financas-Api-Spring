@@ -1,2 +1,2 @@
 # financas
-adaptando para o java 17, postgres 14 atualizado
+adaptando para o java 17, postgres 14 atualizado, adicionando relatórios
