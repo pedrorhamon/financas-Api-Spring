@@ -1,2 +1,2 @@
 # financas
-adaptando para o java 21, postgresql
+adaptando para o java 21
