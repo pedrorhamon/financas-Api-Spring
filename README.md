@@ -1,2 +1,2 @@
 # financas
- java 21
+ java
