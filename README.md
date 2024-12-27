@@ -1,2 +1,2 @@
 # financas
- java 11, Spring boot
+ java 11
